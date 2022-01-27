@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
+import usersRoutes from './routes/users.routes';
 dotenv.config();
 
 class App {
@@ -34,16 +35,9 @@ class App {
             res.send("From TS routes");
         })
 
-        this.app.route('/users').post((req: Request, res: Response) => {
-            res.send(req.body);
-        })
+        this.app.use('/users', usersRoutes)
     }
 }
 
 const app = new App().app;
-
-/* Get Body Request JSON */
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
 app.listen(process.env.PORT, () => console.log(`🔥Server is Running in http://localhost:${process.env.PORT}`));
