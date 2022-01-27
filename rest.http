@@ -1,1 +1,11 @@
-GET http://localhost:5000
+GET http://localhost:5000/users
+
+### Users
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "username": "Adi Munawar31",
+    "email": "adi@gmail.com",
+    "password": "munawar31"
+}
