@@ -5,7 +5,6 @@ import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
 import usersRoutes from './api/routes/UserRoute';
-dotenv.config();
 
 class App {
     public app: Application;
@@ -14,6 +13,7 @@ class App {
         this.app = express();
         this.plugins();
         this.routes();
+        dotenv.config();
     }
 
     protected plugins(): void {
