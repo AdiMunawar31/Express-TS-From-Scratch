@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
-import usersRoutes from './routes/users.routes';
+import usersRoutes from './api/routes/UserRoute';
 dotenv.config();
 
 class App {
@@ -35,7 +35,7 @@ class App {
             res.send("From TS routes");
         })
 
-        this.app.use('/users', usersRoutes)
+        this.app.use('/api/v1/users', usersRoutes)
     }
 }
 

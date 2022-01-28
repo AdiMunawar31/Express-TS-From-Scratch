@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import IController from "./ControllerInterface";
+import IController from "../interface/ControllerInterface";
+
+let data: any[] = [
+    { id: 1, name: "Adi" },
+    { id: 2, name: "Munawawar" }
+]
 
 class UsersController implements IController {
     /**
@@ -9,7 +14,7 @@ class UsersController implements IController {
      * @param res Response
      */
     index(req: Request, res: Response): Response {
-        return res.send("From UsersController");
+        return res.send(data);
     }
 
     /**
