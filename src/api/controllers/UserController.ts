@@ -25,7 +25,12 @@ class UsersController implements IController {
      * @param res Response
      */
     create(req: Request, res: Response): Response {
-        return res.send(req.body);
+        const { id, name } = req.body;
+
+        const user = { id, name }
+        data.push(user)
+
+        return res.send("User telah di tambahkan!");
     }
 
     /**
@@ -35,7 +40,10 @@ class UsersController implements IController {
     * @param res Response
     */
     show(req: Request, res: Response): Response {
-        throw new Error("Method not implemented.");
+        const { id } = req.params;
+
+        let person = data.find(item => item.id == id);
+        return res.send(person)
     }
 
     /**
@@ -46,7 +54,13 @@ class UsersController implements IController {
      * @param res Response
      */
     update(req: Request, res: Response): Response {
-        throw new Error("Method not implemented.");
+        const { id } = req.params;
+        const { name } = req.body;
+
+        let person = data.find(item => item.id == id);
+        person.name = name;
+
+        return res.send("User telah di update");
     }
 
     /**
@@ -56,7 +70,11 @@ class UsersController implements IController {
    * @param res Response
    */
     delete(req: Request, res: Response): Response {
-        throw new Error("Method not implemented.");
+        const { id } = req.params;
+
+        let person = data.find(item => item.id != id);
+
+        return res.send(person);
     }
 
 }

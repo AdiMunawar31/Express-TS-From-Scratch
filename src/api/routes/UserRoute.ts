@@ -15,7 +15,7 @@ class UserRoutes implements IRouter {
         this.router.post('/', usersController.create);
         this.router.get('/:id', usersController.show);
         this.router.put('/:id', usersController.update);
-        this.router.delete('/', usersController.delete);
+        this.router.delete('/:id', usersController.delete);
     }
 }
 
