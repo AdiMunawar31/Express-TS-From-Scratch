@@ -3,8 +3,8 @@ import BaseRoutes from "../helpers/BaseRoutes";
 
 class AuthRoutes extends BaseRoutes {
     public routes(): void {
-        this.router.get('/login', AuthController.login);
         this.router.post('/register', AuthController.register);
+        this.router.post('/login', AuthController.login);
     }
 }
 
