@@ -4,7 +4,8 @@ import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
-import usersRoutes from './api/routes/UserRoute';
+import UsersRoute from './api/routes/UserRoute';
+import AuthRoute from './api/routes/AuthRoute';
 
 class App {
     public app: Application;
@@ -35,7 +36,8 @@ class App {
             res.send("From TS routes");
         })
 
-        this.app.use('/api/v1/users', usersRoutes)
+        this.app.use('/api/v1/users', UsersRoute)
+        this.app.use('/api/v1/auth', AuthRoute)
     }
 }
 
