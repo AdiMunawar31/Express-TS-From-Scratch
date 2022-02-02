@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import db from "../db/models";
 import Authentication from "../utils/Authentication";
+import db from "../db/models";
 const DB: any = db;
 const { user } = DB;
 

@@ -13,12 +13,12 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
         const credential: string | object = jwt.verify(token, secret_key);
 
         if (credential) {
-            req.app.locals.credential = credential
-            next()
+            req.app.locals.credential = credential;
+            return next();
         }
 
         return res.send('Token is Invalid!');
     } catch (err) {
-        return res.send(err)
+        return res.send(err);
     }
 }
