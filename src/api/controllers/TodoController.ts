@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import IController from "../interface/ControllerInterface";
-import db from "../db/models";
-const DB: any = db;
-const { todo } = DB;
+import TodoService from "../services/TodoServices";
 
 class TodoController implements IController {
     /**
@@ -12,13 +10,9 @@ class TodoController implements IController {
      * @param res Response
      */
     index = async (req: Request, res: Response): Promise<Response> => {
-        const { id } = req.app.locals.credential;
-
         try {
-            const todos = await todo.findAll({
-                where: { user_id: id },
-                attributes: ['id', 'description']
-            });
+            const service: TodoService = new TodoService(req);
+            const todos = await service.getAll()
 
             return res.send(todos);
         } catch (err) {
@@ -34,11 +28,9 @@ class TodoController implements IController {
      * @param res Response
      */
     create = async (req: Request, res: Response): Promise<Response> => {
-        const { id } = req.app.locals.credential;
-        const { description } = req.body;
-
         try {
-            const todos = await todo.create({ user_id: id, description });
+            const service: TodoService = new TodoService(req);
+            const todos = await service.store()
 
             return res.send(todos);
         } catch (err) {
@@ -53,15 +45,11 @@ class TodoController implements IController {
     * @param res Response
     */
     show = async (req: Request, res: Response): Promise<Response> => {
-        const { id: user_id } = req.app.locals.credential;
-        const { id } = req.params;
-
         try {
-            const todos = await todo.findOne({
-                where: { id, user_id }
-            });
+            const service: TodoService = new TodoService(req);
+            const todo = await service.getOne()
 
-            return res.send(todos);
+            return res.send(todo);
         } catch (err) {
             return res.send(err);
         }
@@ -75,18 +63,14 @@ class TodoController implements IController {
      * @param res Response
      */
     update = async (req: Request, res: Response): Promise<Response> => {
-        const { id: user_id } = req.app.locals.credential;
-        const { id } = req.params;
-        const { description } = req.body;
-
         try {
-            await todo.update({
-                description
-            }, {
-                where: { id, user_id }
-            });
+            const service: TodoService = new TodoService(req);
+            const todo = await service.update()
 
-            return res.send("Todo is Updated!")
+            return res.send({
+                message: "Todo is Updated!",
+                data: todo
+            })
         } catch (err) {
             return res.send(err);
         }
@@ -99,15 +83,14 @@ class TodoController implements IController {
    * @param res Response
    */
     delete = async (req: Request, res: Response): Promise<Response> => {
-        const { id: user_id } = req.app.locals.credential;
-        const { id } = req.params;
-
         try {
-            await todo.destroy({
-                where: { id, user_id }
-            });
+            const service: TodoService = new TodoService(req);
+            const todo = await service.delete()
 
-            return res.send('Todo is Deleted!');
+            return res.send({
+                message: "Todo is Deleted!",
+                data: todo
+            })
         } catch (err) {
             return res.send(err)
         }
