@@ -36,8 +36,8 @@ class App {
             res.send("From TS routes");
         })
 
-        this.app.use('/api/v1/users', UsersRoute)
-        this.app.use('/api/v1/auth', AuthRoute)
+        this.app.use('/api/v1/users', UsersRoute);
+        this.app.use('/api/v1/auth', AuthRoute);
     }
 }
 

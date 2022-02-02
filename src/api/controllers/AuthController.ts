@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
 import db from "../db/models";
-import user from "../db/models/user";
 import Authentication from "../utils/Authentication";
 const DB: any = db;
-const { users } = DB;
+const { user } = DB;
 
 class AuthController {
     register = async (req: Request, res: Response): Promise<Response> => {
         const { username, password } = req.body;
 
         const hashedPassword: string = await Authentication.PasswordHash(password);
-        await users.create({
+        await user.create({
             username: username,
             password: hashedPassword
         });
@@ -21,20 +20,23 @@ class AuthController {
     login = async (req: Request, res: Response): Promise<Response> => {
         const { username, password } = req.body;
 
-        const user = await users.findOne({
+        const users = await user.findOne({
             where: { username }
         });
 
-        const comparePassword = await Authentication.PasswordCompare(password, user.password);
+        const comparePassword = await Authentication.PasswordCompare(password, users.password);
 
         if (comparePassword) {
-            const token = Authentication.generateToken(user.id, user.username, user.password);
+            const token = Authentication.generateToken(users.id, users.username, users.password);
 
             return res.send({ token });
         }
 
         return res.send('Authentication failed!');
+    }
 
+    profile = (req: Request, res: Response): Response => {
+        return res.send(req.app.locals.credential);
     }
 }
 
